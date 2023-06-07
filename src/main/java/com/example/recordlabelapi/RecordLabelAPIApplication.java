@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RecordLabelApiApplication {
+public class RecordLabelAPIApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RecordLabelApiApplication.class, args);
+		SpringApplication.run(RecordLabelAPIApplication.class, args);
 	}
 
 }
