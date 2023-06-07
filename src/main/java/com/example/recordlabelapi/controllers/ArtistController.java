@@ -44,4 +44,13 @@ public class ArtistController {
     public ResponseEntity<Artist> getArtistById(@PathVariable Long idOfArtistToGet) {
         return (new ResponseEntity<>(this.artistService.getArtistById(idOfArtistToGet), HttpStatus.OK));
     }
+
+    //@GetMapping("/search")
+    //public ResponseEntity<Artist> getArtistByName(@RequestParam(value = "name", required = false) String nameOfArtistToGet) {
+    //    return (new ResponseEntity<>(this.artistService.getArtistByName(nameOfArtistToGet), HttpStatus.OK));
+    //}
+    @GetMapping("/search")
+    public ResponseEntity<Artist> getArtistByName(@RequestParam(value = "name") String nameOfArtistToGet) {
+        return (new ResponseEntity<>(this.artistService.getArtistByName(nameOfArtistToGet), HttpStatus.OK));
+    }
 }

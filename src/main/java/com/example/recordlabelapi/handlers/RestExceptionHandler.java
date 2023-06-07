@@ -2,10 +2,13 @@ package com.example.recordlabelapi.handlers;
 
 import com.example.recordlabelapi.errors.ErrorDetail;
 import com.example.recordlabelapi.errors.ValidationError;
+import com.example.recordlabelapi.exceptions.MissingPropertyException;
 import com.example.recordlabelapi.exceptions.ResourceNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +39,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setDetail(resourceNotFoundException.getMessage());
         errorDetail.setDeveloperMessage(resourceNotFoundException.getClass().getName());
         return (new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND));
+    }
+
+    @ExceptionHandler(MissingPropertyException.class)
+    public ResponseEntity<?> handleUnrecognizedPropertyException(MissingPropertyException missingPropertyException) {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTimeStamp(new Date().getTime());
+        errorDetail.setStatus((short)HttpStatus.BAD_REQUEST.value());
+        errorDetail.setTitle("Missing Property");
+        errorDetail.setDetail(missingPropertyException.getMessage());
+        errorDetail.setDeveloperMessage(missingPropertyException.getClass().getName());
+        return (new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST));
     }
 
     @Override

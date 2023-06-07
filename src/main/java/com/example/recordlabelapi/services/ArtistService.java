@@ -1,10 +1,13 @@
 package com.example.recordlabelapi.services;
 
+import com.example.recordlabelapi.exceptions.MissingPropertyException;
 import com.example.recordlabelapi.exceptions.ResourceNotFoundException;
 import com.example.recordlabelapi.models.Artist;
 import com.example.recordlabelapi.repositories.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class ArtistService {
@@ -44,5 +47,18 @@ public class ArtistService {
     public Artist getArtistById (Long idOfArtistToGet) {
         this.verifyArtistExists(idOfArtistToGet);
         return this.artistRepository.findById(idOfArtistToGet).get();
+    }
+
+    public Artist getArtistByName(String nameOfArtistToGet) throws ResourceNotFoundException {
+        for (Artist artistInRepository : this.artistRepository.findAll()) {
+            if (!(Objects.equals(nameOfArtistToGet, ""))) {
+                if (artistInRepository.getName().equalsIgnoreCase(nameOfArtistToGet)) {
+                    return artistInRepository;
+                }
+            } else {
+                throw (new MissingPropertyException("No name was provided"));
+            }
+        }
+        throw (new ResourceNotFoundException("Artist with name " + nameOfArtistToGet + " not found"));
     }
 }
