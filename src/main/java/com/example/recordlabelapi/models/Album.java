@@ -3,6 +3,9 @@ package com.example.recordlabelapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,7 +23,8 @@ public class Album {
     private String name;
 
     @Column(name = "release_year")
-    @NotEmpty
+    @JsonProperty("release_year")
+    @NotNull
     private Short releaseYear;
 
     @Column(name = "genre")

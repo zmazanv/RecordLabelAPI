@@ -30,7 +30,6 @@ public class AlbumService {
 
     public void addAlbum(Long artistId, Album albumToBeAdded) {
         this.artistService.verifyArtistExists(artistId);
-        verifyAlbumExists(artistId);
         albumToBeAdded.setArtist(this.artistRepository.findById(artistId).get());
         this.albumRepository.save(albumToBeAdded);
     }
@@ -42,7 +41,6 @@ public class AlbumService {
         albumToUpdate.setName(albumWithUpdates.getName());
         albumToUpdate.setReleaseYear(albumWithUpdates.getReleaseYear());
         albumToUpdate.setGenre(albumWithUpdates.getGenre());
-        albumToUpdate.setArtist(albumWithUpdates.getArtist());
         this.albumRepository.save(albumToUpdate);
     }
 
@@ -54,7 +52,7 @@ public class AlbumService {
 
     public Iterable<Album> getAllAlbumsByArtistId(Long artistId) {
         this.artistService.verifyArtistExists(artistId);
-        return this.albumRepository.findAll();
+        return this.albumRepository.findAllAlbumsByArtistId(artistId);
     }
 
     public Album getAlbumById(Long artistId, Long idOfAlbumToGet) {
