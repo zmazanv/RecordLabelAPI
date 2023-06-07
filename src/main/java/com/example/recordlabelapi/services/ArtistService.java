@@ -50,13 +50,14 @@ public class ArtistService {
     }
 
     public Artist getArtistByName(String nameOfArtistToGet) throws ResourceNotFoundException {
-        for (Artist artistInRepository : this.artistRepository.findAll()) {
-            if (!(Objects.equals(nameOfArtistToGet, ""))) {
+        boolean isEmptyString = nameOfArtistToGet.trim().isEmpty();
+        if (isEmptyString) {
+            throw (new MissingPropertyException("No name was provided"));
+        } else {
+            for (Artist artistInRepository : this.artistRepository.findAll()) {
                 if (artistInRepository.getName().equalsIgnoreCase(nameOfArtistToGet)) {
                     return artistInRepository;
                 }
-            } else {
-                throw (new MissingPropertyException("No name was provided"));
             }
         }
         throw (new ResourceNotFoundException("Artist with name " + nameOfArtistToGet + " not found"));
